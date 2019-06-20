@@ -1,6 +1,7 @@
 package de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.platzverkauf;
 
 import de.uni_hamburg.informatik.swt.se2.kino.fachwerte.Geldbetrag;
+import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.kasse.KassenWerkzeug;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -24,6 +25,7 @@ class BezahlWerkzeug {
 
         _geldbetrag = new Geldbetrag(preis);
         _ui = new BezahlWerkzeugUI(_geldbetrag.toString());
+        KassenWerkzeug.setEnabled(false);
 
         registriereUIAktionen();
         aktualisiereUI();
@@ -114,30 +116,39 @@ class BezahlWerkzeug {
     private void schliesseFenster() {
         _ui.schliesse();
         _ui = null;
+        KassenWerkzeug.setEnabled(true);
     }
 
     private Geldbetrag getGeldbetrag() {
         String input = _ui.getGezahlterBetragField().getText();
-        int parsed;
+        int parsedEuro;
 
         if (!input.contains(",")) {
             try {
-                parsed = Integer.parseInt(input) * 100;
+                parsedEuro = Integer.parseInt(input) * 100;
             } catch (Exception ex) {
                 return new Geldbetrag(0, 0);
             }
-            return new Geldbetrag(parsed);
+            return new Geldbetrag(parsedEuro);
         }
 
         String[] withoutComma = input.split(",");
+        try {
+            if (withoutComma[1].length() > 2) {
+                return new Geldbetrag(0, 0);
+            }
+        } catch (Exception ex) {
+        }
+
+        int parsedCent;
 
         try {
-            parsed = Integer.parseInt(withoutComma[0]) * 100;
-            parsed += Integer.parseInt(withoutComma[1]);
+            parsedEuro = Integer.parseInt(withoutComma[0]);
+            parsedCent = withoutComma[1].length() == 1 ? Integer.parseInt(withoutComma[1]) * 10 : Integer.parseInt(withoutComma[1]);
         } catch (Exception ex) {
             return new Geldbetrag(0, 0);
         }
-        return new Geldbetrag(parsed);
+        return new Geldbetrag(parsedEuro, parsedCent);
     }
 
     private boolean istBezahlenMoeglich() {

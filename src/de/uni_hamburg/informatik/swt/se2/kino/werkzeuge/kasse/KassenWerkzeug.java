@@ -22,6 +22,8 @@ import de.uni_hamburg.informatik.swt.se2.kino.werkzeuge.vorstellungsauswaehler.V
  */
 public class KassenWerkzeug
 {
+    private static KassenWerkzeug instance;
+
     // Das Material dieses Werkzeugs
     private Kino _kino;
 
@@ -43,6 +45,7 @@ public class KassenWerkzeug
     public KassenWerkzeug(Kino kino)
     {
         assert kino != null : "Vorbedingung verletzt: kino != null";
+        instance = this;
 
         _kino = kino;
 
@@ -146,5 +149,9 @@ public class KassenWerkzeug
     private Vorstellung getAusgewaehlteVorstellung()
     {
         return _vorstellungAuswaehlWerkzeug.getAusgewaehlteVorstellung();
+    }
+
+    public static void setEnabled(boolean enabled) {
+        instance._ui.setEnabled(enabled);
     }
 }

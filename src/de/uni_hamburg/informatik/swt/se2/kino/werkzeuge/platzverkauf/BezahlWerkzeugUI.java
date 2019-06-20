@@ -7,7 +7,7 @@ import java.awt.*;
 class BezahlWerkzeugUI {
     private final String _geldbetrag;
 
-    private JFrame _hauptFenster;
+    private JDialog _hauptFenster;
     private JPanel _restPanel;
     private JTextField _gezahltBetragField;
     private JLabel _restBetragLabel;
@@ -20,10 +20,10 @@ class BezahlWerkzeugUI {
         _hauptFenster = erstelleFenster();
     }
 
-    private JFrame erstelleFenster() {
-        JFrame frame = new JFrame();
+    private JDialog erstelleFenster() {
+        JDialog frame = new JDialog();
 
-        frame.setTitle("Bar bezahlen");
+        frame.setTitle("Barzahlung");
         frame.setBounds(300, 400, 300, 400);
         frame.setLayout(new BorderLayout());
         frame.setResizable(false);
@@ -82,7 +82,7 @@ class BezahlWerkzeugUI {
         _hauptFenster.dispose();
     }
 
-    JFrame getHauptFenster() {
+    JDialog getHauptFenster() {
         return _hauptFenster;
     }
 

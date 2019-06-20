@@ -138,4 +138,8 @@ class KassenWerkzeugUI
     {
         return _beendenButton;
     }
+
+    void setEnabled(boolean enabled) {
+        _frame.setEnabled(enabled);
+    }
 }
